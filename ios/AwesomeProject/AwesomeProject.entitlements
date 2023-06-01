@@ -6,7 +6,7 @@
 	<string>development</string>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.com.kumparan.kumparan.insider</string>
+		<string>group.com.med247.chime</string>
 	</array>
 </dict>
 </plist>
