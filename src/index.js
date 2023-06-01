@@ -42,7 +42,7 @@ async function initInsider() {
 
   RNInsider.init(
     "med247uat",
-    "group.com.med247.chime",
+    "group",
     (type, data) => {
       switch (type) {
         case InsiderCallbackType.NOTIFICATION_OPEN:
