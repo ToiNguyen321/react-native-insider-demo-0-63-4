@@ -5,6 +5,8 @@ import messaging from '@react-native-firebase/messaging';
 import InsiderCallbackType from "react-native-insider/src/InsiderCallbackType";
 import AppNavigator from './AppNavigator';
 import NavigationService from './NavigationService';
+import UI from './UI';
+import InsiderHelper from './helper/InsiderHelper';
 
 async function requestUserPermission() {
   const authStatus = await messaging().requestPermission();
@@ -15,7 +17,7 @@ async function requestUserPermission() {
 
   if (enabled) {
     console.log("Authorization status:", authStatus);
-  getToken();
+    getToken();
 
   }
 
@@ -36,35 +38,6 @@ const getToken = async () => {
   }
 
 };
-
-async function initInsider() {
-  console.log("Insider initialized");
-
-  RNInsider.init(
-    "med247uat",
-    "group",
-    (type, data) => {
-      switch (type) {
-        case InsiderCallbackType.NOTIFICATION_OPEN:
-          console.log("[INSIDER][NOTIFICATION_OPEN]: ", data);
-          // Alert.alert("[INSIDER][NOTIFICATION_OPEN]:", JSON.stringify(data));
-          NavigationService.navigate("chat")
-          break;
-        case InsiderCallbackType.TEMP_STORE_CUSTOM_ACTION:
-          console.log("[INSIDER][TEMP_STORE_CUSTOM_ACTION]: ", data);
-          Alert.alert(
-            "[INSIDER][TEMP_STORE_CUSTOM_ACTION]: ",
-            JSON.stringify(data)
-          );
-          break;
-      }
-    }
-  );
-
-  RNInsider.registerWithQuietPermission(false);
-
-  console.log("Insider initialized");
-}
 
 const App = () => {
 
@@ -100,22 +73,25 @@ const App = () => {
         }
       });
 
-    initInsider();
+    InsiderHelper.initInsider()
 
     return unsubscribe;
   }, []);
 
   return (
-    <AppNavigator
-      ref={navigatorRef => {
-        NavigationService.setTopLevelNavigator(navigatorRef);
-      }}
-      // enableURLHandling={false}
-      // uriPrefix={uriPrefix}
-      onNavigationStateChange={(prevState, currentState, action) => {
-        console.log("🚀 ~ file: index.js:217 ~ App ~ currentState:", prevState, currentState)
-      }}
-    />
+    <>
+      <AppNavigator
+        ref={navigatorRef => {
+          NavigationService.setTopLevelNavigator(navigatorRef);
+        }}
+        // enableURLHandling={false}
+        // uriPrefix={uriPrefix}
+        onNavigationStateChange={(prevState, currentState, action) => {
+          console.log("🚀 ~ file: index.js:217 ~ App ~ currentState:", prevState, currentState)
+        }}
+      />
+      <UI />
+    </>
   )
 }
 
