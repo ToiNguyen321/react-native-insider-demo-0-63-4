@@ -54,6 +54,10 @@ const App = () => {
       console.log(
         "A new FCM message arrived! :" + JSON.stringify(remoteMessage)
       );
+
+      if ((remoteMessage.data || {}).source === "Insider") {
+        RNInsider.handleNotification(remoteMessage.data);
+      }
     });
 
     messaging().onNotificationOpenedApp((remoteMessage) => {
