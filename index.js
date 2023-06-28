@@ -10,11 +10,11 @@ import messaging from '@react-native-firebase/messaging';
 
 console.disableYellowBox = true
 
-messaging().setBackgroundMessageHandler((notification) => {//from killed or background android
-  console.log("🚀 ~ file: index.js:12 ~ messaging ~ notification:", notification)
-  if (notification?.data?.source === 'Insider') {
-      RNInsider.handleNotification(notification.data);
+messaging().setBackgroundMessageHandler(async remoteMessage => {
+  if (remoteMessage?.data?.source === 'Insider') {
+      RNInsider.handleNotification(remoteMessage.data);
       return;
   }
-})
+});
+
 AppRegistry.registerComponent(appName, () => App);
